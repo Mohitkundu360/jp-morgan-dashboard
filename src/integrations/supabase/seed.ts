@@ -1,18 +1,15 @@
 import 'dotenv/config'; // automatically loads .env
-
 import { createClient } from '@supabase/supabase-js';
 
-// Read from .env
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_KEY!;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error('SUPABASE_URL or SUPABASE_KEY is not defined in .env');
+  throw new Error('SUPABASE_URL or SUPABASE_SERVICE_KEY is not defined in .env');
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Example seeding
 async function seed() {
   const { data, error } = await supabase.from('portfolio_holdings').insert([
     {
@@ -25,7 +22,7 @@ async function seed() {
     },
   ]);
 
-  if (error) console.error(error);
+  if (error) console.error('Seed error:', error);
   else console.log('Seed complete:', data);
 }
 
